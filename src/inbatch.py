@@ -9,7 +9,7 @@ import transformers
 import logging
 import torch.distributed as dist
 
-from src import contriever, dist_utils, utils
+from . import contriever, dist_utils, utils
 
 logger = logging.getLogger(__name__)
 

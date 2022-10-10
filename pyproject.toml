@@ -21,8 +21,8 @@ dependencies = {file = ["requirements.txt"]}
 [project.urls]
 "Homepage" = "https://github.com/facebookresearch/contriever"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools.package-dir]
+contriever = "src"
 
 [tool.setuptools.package-data]
 "contriever" = ["py.typed", "*.pyi"]

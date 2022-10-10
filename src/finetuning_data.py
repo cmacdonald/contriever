@@ -5,7 +5,7 @@ import random
 import json
 import sys
 import numpy as np
-from src import normalize_text
+from . import normalize_text
 
 
 class Dataset(torch.utils.data.Dataset):

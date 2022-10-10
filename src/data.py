@@ -12,7 +12,7 @@ import logging
 from collections import defaultdict
 import torch.distributed as dist
 
-from src import dist_utils
+from . import dist_utils
 
 logger = logging.getLogger(__name__)
 

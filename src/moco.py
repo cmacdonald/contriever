@@ -6,7 +6,7 @@ import logging
 import copy
 import transformers
 
-from src import contriever, dist_utils, utils
+from . import contriever, dist_utils, utils
 
 logger = logging.getLogger(__name__)
 

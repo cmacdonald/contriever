@@ -155,7 +155,7 @@ This leads to the following results:
 Scores on the BEIR benchmark can be reproduced using [beireval.py](beireval.py).
 
 ```bash
-python beireval.py --model_name_or_path contriever-msmarco --dataset scifact
+python eval_beir.py --model_name_or_path facebook/contriever-msmarco --dataset scifact
 ```
 
 

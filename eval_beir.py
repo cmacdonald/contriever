@@ -12,26 +12,26 @@ import json
 import numpy as np
 import os
 
-import src.slurm
-import src.contriever
-import src.beir_utils
-import src.utils
-import src.dist_utils
-import src.contriever
+import contriever.slurm
+import contriever.contriever
+import contriever.beir_utils
+import contriever.utils
+import contriever.dist_utils
+import contriever.contriever
 
 logger = logging.getLogger(__name__)
 
 
 def main(args):
 
-    src.slurm.init_distributed_mode(args)
-    src.slurm.init_signal_handler()
+    contriever.slurm.init_distributed_mode(args)
+    contriever.slurm.init_signal_handler()
 
     os.makedirs(args.output_dir, exist_ok=True)
 
-    logger = src.utils.init_logger(args)
+    logger = contriever.utils.init_logger(args)
 
-    model, tokenizer, _ = src.contriever.load_retriever(args.model_name_or_path)
+    model, tokenizer, _ = contriever.contriever.load_retriever(args.model_name_or_path)
     model = model.cuda()
     model.eval()
     query_encoder = model
@@ -39,7 +39,7 @@ def main(args):
 
     logger.info("Start indexing")
 
-    metrics = src.beir_utils.evaluate_model(
+    metrics = contriever.beir_utils.evaluate_model(
         query_encoder=query_encoder,
         doc_encoder=doc_encoder,
         tokenizer=tokenizer,
@@ -47,7 +47,7 @@ def main(args):
         batch_size=args.per_gpu_batch_size,
         norm_query=args.norm_query,
         norm_doc=args.norm_doc,
-        is_main=src.dist_utils.is_main(),
+        is_main=contriever.dist_utils.is_main(),
         split="dev" if args.dataset == "msmarco" else "test",
         score_function=args.score_function,
         beir_dir=args.beir_dir,
@@ -56,7 +56,7 @@ def main(args):
         normalize_text=args.normalize_text,
     )
 
-    if src.dist_utils.is_main():
+    if contriever.dist_utils.is_main():
         for key, value in metrics.items():
             logger.info(f"{args.dataset} : {key}: {value:.1f}")
 

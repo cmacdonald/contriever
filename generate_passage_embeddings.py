@@ -16,11 +16,11 @@ import torch
 
 import transformers
 
-import src.slurm
-import src.contriever
-import src.utils
-import src.data
-import src.normalize_text
+import contriever.slurm
+import contriever.contriever
+import contriever.utils
+import contriever.data
+import contriever.normalize_text
 
 
 def embed_passages(args, passages, model, tokenizer):
@@ -37,7 +37,7 @@ def embed_passages(args, passages, model, tokenizer):
             if args.lowercase:
                 text = text.lower()
             if args.normalize_text:
-                text = src.normalize_text.normalize(text)
+                text = contriever.normalize_text.normalize(text)
             batch_text.append(text)
 
             if len(batch_text) == args.per_gpu_batch_size or k == len(passages) - 1:
@@ -68,14 +68,14 @@ def embed_passages(args, passages, model, tokenizer):
 
 
 def main(args):
-    model, tokenizer, _ = src.contriever.load_retriever(args.model_name_or_path)
+    model, tokenizer, _ = contriever.contriever.load_retriever(args.model_name_or_path)
     print(f"Model loaded from {args.model_name_or_path}.", flush=True)
     model.eval()
     model = model.cuda()
     if not args.no_fp16:
         model = model.half()
 
-    passages = src.data.load_passages(args.passages)
+    passages = contriever.data.load_passages(args.passages)
 
     shard_size = len(passages) // args.num_shards
     start_idx = args.shard_id * shard_size
@@ -119,6 +119,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    src.slurm.init_distributed_mode(args)
+    contriever.slurm.init_distributed_mode(args)
 
     main(args)

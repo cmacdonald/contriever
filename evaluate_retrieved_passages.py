@@ -12,9 +12,9 @@ import glob
 import numpy as np
 import torch
 
-import src.utils
+import contriever.utils
 
-from src.evaluation import calculate_matches
+from contriever.evaluation import calculate_matches
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ def validate(data, workers_num):
 
 
 def main(opt):
-    logger = src.utils.init_logger(opt, stdout_only=True)
+    logger = contriever.utils.init_logger(opt, stdout_only=True)
     datapaths = glob.glob(args.data)
     r20, r100 = [], []
     for path in datapaths:

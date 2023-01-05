@@ -22,7 +22,7 @@ dependencies = {file = ["requirements.txt"]}
 "Homepage" = "https://github.com/facebookresearch/contriever"
 
 [tool.setuptools.package-dir]
-contriever = "src"
+contriever = "contriever"
 
 [tool.setuptools.package-data]
 "contriever" = ["py.typed", "*.pyi"]

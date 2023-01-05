@@ -18,13 +18,13 @@ import numpy as np
 import torch
 import transformers
 
-import src.index
-import src.contriever
-import src.utils
-import src.slurm
-import src.data
-from src.evaluation import calculate_matches
-import src.normalize_text
+import contriever.index
+import contriever.contriever
+import contriever.utils
+import contriever.slurm
+import contriever.data
+from contriever.evaluation import calculate_matches
+import contriever.normalize_text
 
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
@@ -38,7 +38,7 @@ def embed_queries(args, queries, model, tokenizer):
             if args.lowercase:
                 q = q.lower()
             if args.normalize_text:
-                q = src.normalize_text.normalize(q)
+                q = contriever.normalize_text.normalize(q)
             batch_question.append(q)
 
             if len(batch_question) == args.per_gpu_batch_size or k == len(queries) - 1:
@@ -148,13 +148,13 @@ def load_data(data_path):
 def main(args):
 
     print(f"Loading model from: {args.model_name_or_path}")
-    model, tokenizer, _ = src.contriever.load_retriever(args.model_name_or_path)
+    model, tokenizer, _ = contriever.contriever.load_retriever(args.model_name_or_path)
     model.eval()
     model = model.cuda()
     if not args.no_fp16:
         model = model.half()
 
-    index = src.index.Indexer(args.projection_size, args.n_subquantizers, args.n_bits)
+    index = contriever.index.Indexer(args.projection_size, args.n_subquantizers, args.n_bits)
 
     # index all passages
     input_paths = glob.glob(args.passages_embeddings)
@@ -172,7 +172,7 @@ def main(args):
             index.serialize(embeddings_dir)
 
     # load passages
-    passages = src.data.load_passages(args.passages)
+    passages = contriever.data.load_passages(args.passages)
     passage_id_map = {x["id"]: x for x in passages}
 
     data_paths = glob.glob(args.data)
@@ -245,5 +245,5 @@ if __name__ == "__main__":
     parser.add_argument("--normalize_text", action="store_true", help="normalize text")
 
     args = parser.parse_args()
-    src.slurm.init_distributed_mode(args)
+    contriever.slurm.init_distributed_mode(args)
     main(args)

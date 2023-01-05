@@ -12,8 +12,8 @@ import numpy as np
 import torch.distributed as dist
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 
-from src.options import Options
-from src import data, beir_utils, slurm, dist_utils, utils, contriever, finetuning_data, inbatch
+from contriever.options import Options
+from contriever import data, beir_utils, slurm, dist_utils, utils, contriever, finetuning_data, inbatch
 
 import train
 

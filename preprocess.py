@@ -5,7 +5,7 @@ import argparse
 import torch
 
 import transformers
-from src.normalize_text import normalize
+from contriever.normalize_text import normalize
 
 
 def save(tensor, split_path):

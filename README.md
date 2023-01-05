@@ -11,7 +11,7 @@ We also trained a multilingual version of Contriever, mContriever, achieving str
 Pre-trained models can be loaded through the HuggingFace transformers library:
 
 ```python
-from src.contriever import Contriever
+from contriever import Contriever
 from transformers import AutoTokenizer
 
 contriever = Contriever.from_pretrained("facebook/contriever") 
@@ -49,7 +49,7 @@ The following pre-trained models are available:
 
 
 ```python
-from src.contriever import Contriever
+from contriever import Contriever
 
 contriever = Contriever.from_pretrained("facebook/contriever") 
 contriever_msmarco = Contriever.from_pretrained("facebook/contriever-msmarco")

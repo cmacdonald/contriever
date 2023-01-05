@@ -13,9 +13,9 @@ import pickle
 import torch.distributed as dist
 from torch.utils.data import DataLoader, RandomSampler
 
-from src.options import Options
-from src import data, beir_utils, slurm, dist_utils, utils
-from src import moco, inbatch
+from contriever.options import Options
+from contriever import data, beir_utils, slurm, dist_utils, utils
+from contriever import moco, inbatch
 
 
 logger = logging.getLogger(__name__)
